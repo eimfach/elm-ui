@@ -1,0 +1,40 @@
+ui-drawermenu {
+  padding: 60px 0;
+  z-index: 9;
+  position: fixed;
+  top: 0;
+  left: -350px;
+  height: 100%;
+  width: 350px;
+  overflow: hidden;
+  @include background-color-opacity(#3e3e3e, 0.988);
+
+  color: white;
+  transition: left 400ms cubic-bezier(0.77, 0, 0.175, 1);
+
+  &.ui-drawermenu-visible {
+      left: 0px;
+  }
+
+  ui-drawermenu-item {
+    display: block;
+    padding: 10px 30px;
+    height: 50px;
+    line-height: 30px;
+    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid rgba($color-border, 0.1);
+
+    &:hover {
+      cursor: pointer;
+      background-color: dampen-inverse($color-sidebar, 10%);
+      border-color: dampen-inverse($color-sidebar, 40%);
+    }
+    a {
+      color : $primary;
+    }
+    ui-icon {
+      float: right;
+      font-size: 28px;
+    }
+  }
+}

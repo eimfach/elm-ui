@@ -10,14 +10,18 @@ $color-header-border: dampen-inverse($primary, 20%);
 $color-sidebar: $primary !default;
 $color-sidebar-border: dampen-inverse($primary, 20%);
 
+$color-border: #E2E2E2 !default;
+
 // Calulated colors
 $background: #F5F5F5 !default;
 $secondary: #5D7889 !default;
 $input: #FDFDFD !default;
 
+
+
 // Border
 $border-radius: 2px !default;
-$border: 1px solid #E2E2E2 !default;
+$border: 1px solid $color-border !default;
 
 // Disabled
 $disabled: desaturate(dampen($input, 15%), 60%) !default;

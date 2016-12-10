@@ -30,6 +30,7 @@ import Ui.NumberRange
 import Ui.ButtonGroup
 import Ui.ColorPicker
 import Ui.DatePicker
+import Ui.DrawerMenu
 import Ui.ColorPanel
 import Ui.IconButton
 import Ui.FileInput
@@ -77,6 +78,7 @@ type Msg {- Showcase models -}
   | Tagger (Showcase.Msg Ui.Tagger.Msg)
   | Input (Showcase.Msg Ui.Input.Msg)
   | Tabs (Showcase.Msg Ui.Tabs.Msg) {- Components -}
+  | ToggleDrawerMenu
   | DropdownMenu Ui.DropdownMenu.Msg
   | Notis Ui.NotificationCenter.Msg
   | Image Ui.Image.Msg
@@ -168,6 +170,7 @@ type alias Model =
   , notifications : Ui.NotificationCenter.Model Msg
   , app : Ui.App.Model
   , menu : Ui.DropdownMenu.Model
+  , drawerMenu: Ui.DrawerMenu.Model
   , loader : Ui.Loader.Model
   , modal : Ui.Modal.Model
   , image : Ui.Image.Model
@@ -444,6 +447,7 @@ init =
           (\_ -> Sub.none)
           (\model -> Ui.Slider.subscriptions model)
     , menu = Ui.DropdownMenu.init
+    , drawerMenu = Ui.DrawerMenu.init
     , modal = Ui.Modal.init
     , loader = { loader | shown = True }
     , time = Ui.Time.init (Ext.Date.createDate 2015 11 1)
@@ -508,7 +512,7 @@ view model =
       numberPad, ratings, pager, input, buttonGroup, buttons, iconButtons,
       disabledButton, disabledIconButton, modalView, infos, modalButton,
       dropdownMenu, pagerControls, notificationButton, tagger, pagerContents,
-      searchInput, tabs, tabsContents, taggerData, fileInput } =
+      searchInput, tabs, tabsContents, taggerData, fileInput, drawerMenu } =
       model
 
     clicked =
@@ -526,7 +530,7 @@ view model =
           [ Ui.Header.view
             [ Ui.Header.icon
               { glyph = "grid"
-              , action = Just NoOp
+              , action = Just ToggleDrawerMenu
               , target = ""
               , link = Nothing
               , size = 32
@@ -566,10 +570,16 @@ view model =
               }
             ]
           ]
-          [ node
+          [
+            [ Ui.DrawerMenu.viewRowDefault "Close"
+                (Just "android-download")
+                (Just ToggleDrawerMenu)
+            ]
+            |> (Ui.DrawerMenu.view drawerMenu)
+          , node
               "kitchen-sink"
               []
-              (infos
+              ( infos
                 ++ [ table
                       []
                       [ tr
@@ -716,6 +726,9 @@ view model =
 update : Msg -> Model -> Model
 update msg model =
   case msg of
+    ToggleDrawerMenu ->
+      { model | drawerMenu = Ui.DrawerMenu.toggle model.drawerMenu }
+
     DropdownMenu act ->
       { model | menu = Ui.DropdownMenu.update act model.menu }
 

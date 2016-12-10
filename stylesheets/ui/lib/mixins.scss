@@ -26,3 +26,8 @@
   align-items: center;
   display: flex;
 }
+
+@mixin background-color-opacity($color, $opacity) {
+    background-color: $color;
+    background-color: rgba($color, $opacity);
+}
